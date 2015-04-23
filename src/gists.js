@@ -4,14 +4,14 @@ var dateOff = (  60 * 1000); // minute
 var d = new Date();
 d.setTime(d.getTime() - dateOff);
 gitDate = d.toISOString();
-
+var per_page = 30;
 var gitURL = 'https://api.github.com/gists/public';
 
 function connect(url, queryType) {
 
     //did we get anything
     if(!url){
-        url = 'https://api.github.com/gists/public?per_page=30' ;
+        url = 'https://api.github.com/gists/public?per_page=' + per_page ;
     }
 
     var req = new XMLHttpRequest();
@@ -36,10 +36,6 @@ function connect(url, queryType) {
                 if(response !== '') {
                     console.log('I have a response');
                     //depending on how we set the url, we may need to change the object
-                    if(queryType === 'search'){
-
-                        response = response.items;
-                    }
 
                     displayGists(response, 'gists');
                     return response;
@@ -54,7 +50,13 @@ function connect(url, queryType) {
 }
 
 function addFav() {
+
+
 }
+
+
+
+
 //grabs relevant data in the response
 //@param rsp, takes a XMLHTTPResponse object
 //@param where, where to display the list i.e favorites or
@@ -71,7 +73,9 @@ function displayGists(rsp, where) {
         var list = document.createElement("ul");
 
             console.log(rsp);
-            rsp.forEach(function (rowData) {var row = document.createElement("li");
+            rsp.forEach(function (rowData) {
+
+                var row = document.createElement("li");
 
                 var rowLink = document.createElement("a");
                     rowLink.href = rowData.html_url;
@@ -79,7 +83,20 @@ function displayGists(rsp, where) {
                     rowLink.target = "_blank";
 
                 var fileDesc = document.createTextNode(rowData.description);
+                if(rowData.description === '' || rowData.description === null){
+                    fileDesc = document.createTextNode('No Decription Entered')
+                }
+                var addtoFav = document.createElement("a");
+                    addtoFav.onclick = addFav;
+                    addtoFav.className = "addLink";
+                    addtoFav.target = "_blank";
+                    addtoFav.id = rowData.id;
+                    var addtoFavLink = document.createTextNode(' + ');
+                    addtoFav.appendChild(addtoFavLink);
 
+                    //addtoFav.appendChild(document.createTextNode('Add'));
+
+                     //fileDesc.appendChild(addtoFav);
                 //var cell_date = document.createTextNode( rowData.updated_at );
                 /*var listFiles = document.createElement("ul");
 
@@ -102,8 +119,12 @@ function displayGists(rsp, where) {
                     listFiles.appendChild(rowFiles);
                 }
                 */
+
                 row.appendChild(rowLink);
+
                 rowLink.appendChild(fileDesc);
+                //rowLink.insertBefore(addtoFav, fileDesc);
+                row.appendChild(addtoFav);
                 //row.appendChild(listFiles);
                 list.appendChild(row);
             });
@@ -130,11 +151,10 @@ function displayGists(rsp, where) {
 function filter(clear){
     var newurl = '';
 
+
     if(!clear) {
         var filters = [];
         var pages;
-        var per_page = 30;
-
 
         langu = document.getElementsByName('language');
         //gather up which filters are needed
@@ -146,30 +166,39 @@ function filter(clear){
         //if there are filters add them to the request
         if (filters.length >= 1 ) {
 
-            newurl = 'https://api.github.com/search/repositories?q=';
+            newurl = 'https://api.github.com/gists/public?q=';
             newurl += 'language=';
             var languages  = filters.join(' OR ');
             newurl += encodeURIComponent(languages);
-            newurl += '&per_page' + per_page;
+            newurl += '&per_page=' + per_page;
+            console.log(newurl);
         }
 
         console.log(newurl);
-        connect(newurl, 'search');
+        connect(newurl);
         //newurl += 'per_page=' + per_page;
         //if the page changed add that too api.github.com/search/repositories?q=
+
+    }else{
+        connect();
 
     }
 
 }
 
+function setPPage(){
+
+    per_page = document.getElementById('pages').value;
+    connect();
+}
 
 window.onload = function(){
    console.log('Connecting...');
 
-    var perpage = 4;
-   connect('https://api.github.com/gists/public?per_page='+ perpage);
 
+   connect('https://api.github.com/gists/public?per_page='+ per_page);
 
+    document.getElementById('pages').value = per_page ;
     //displayGists(response, 'gists');
 
 };
