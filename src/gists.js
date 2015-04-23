@@ -4,22 +4,27 @@ var dateOff = (  60 * 1000); // minute
 var d = new Date();
 d.setTime(d.getTime() - dateOff);
 gitDate = d.toISOString();
-var response;
 
-function connect(url) {
+var gitURL = 'https://api.github.com/gists/public';
+
+function connect(url, queryType) {
+
+    //did we get anything
+    if(!url){
+        url = 'https://api.github.com/gists/public?per_page=30' ;
+    }
 
     var req = new XMLHttpRequest();
 
     // make sure it got somewhere
     if (!req)console.log( 'Something broke with the request to ' +  url);
 
-    req.onreadystatechange = alerts;
+    req.onreadystatechange = state;
     req.open('GET', url);
     req.send();
 
 
-    function alerts() {
-
+    function state() {
         //Check the state
         if (req.readyState === 4) {
             //check the response
@@ -27,55 +32,133 @@ function connect(url) {
                 // everything is good, the response is received
                 console.log("it works");
                 response = JSON.parse(req.responseText);
+
                 if(response !== '') {
                     console.log('I have a response');
-                    localStorage.setItem("gists", JSON.stringify(req.responseText));
+                    //depending on how we set the url, we may need to change the object
+                    if(queryType === 'search'){
 
+                        response = response.items;
+                    }
+
+                    displayGists(response, 'gists');
+                    return response;
                 }
             }else{
+
                 console.log('Received a response other than 200');
                 console.log(req.statusText);
             }
         }
     }
 }
+
+function addFav() {
+}
 //grabs relevant data in the response
-//@param takes a XMLHTTPResponse object
-function getGists(rsp) {
+//@param rsp, takes a XMLHTTPResponse object
+//@param where, where to display the list i.e favorites or
+function displayGists(rsp, where) {
 
-    var display = document.getElementById("gists");
-    var tbl = document.createElement("table");
-    var tblbdy = document.createElement("tbody");
-    var length = rsp.length;
+        if(!rsp){ rsp = connect().response}
+        if(!where){where = 'gists'}
+        //clear out the space
+        //allowing successive calls to replace existing data
+        document.getElementById(where).innerHTML = '';
 
-    rsp.forEach(function(rowData){
-        var row = document.createElement("tr");
+        //start the list
+        var display = document.getElementById("gists");
+        var list = document.createElement("ul");
+
+            console.log(rsp);
+            rsp.forEach(function (rowData) {var row = document.createElement("li");
+
+                var rowLink = document.createElement("a");
+                    rowLink.href = rowData.html_url;
+                    rowLink.className = 'gitLink';
+                    rowLink.target = "_blank";
+
+                var fileDesc = document.createTextNode(rowData.description);
+
+                //var cell_date = document.createTextNode( rowData.updated_at );
+                /*var listFiles = document.createElement("ul");
+
+                //Grab the file Names and Info
+                for (file in rowData.files) {
+
+                    var rowFiles = document.createElement("li");
+                    var fileName = document.createElement("div");
+                        fileName.className = "fileName";
+                        fileName.innerHTML = rowData.files[file].filename;
+
+                    var fileLink = document.createElement("a");
+                        fileLink.href = rowData.files[file].raw_url;
+                        fileLink.class = "fileLink";
+
+                    var fileLang = document.createTextNode(rowData.files[file].language);
+                    rowFiles.appendChild(fileName);
+                    //rowFiles.appendChild(fileLink);
+                    rowFiles.appendChild(fileLang);
+                    listFiles.appendChild(rowFiles);
+                }
+                */
+                row.appendChild(rowLink);
+                rowLink.appendChild(fileDesc);
+                //row.appendChild(listFiles);
+                list.appendChild(row);
+            });
+            //put in the retunred information
+            display.appendChild(list);
+
+}
+
+//function addLang(){
+//
+//
+//    rsp.forEach(function (rowData) {
+//
+//        //grab the file Names and Info
+//        for (file in rowData.files) {
+//
+//            var fileLang = document.createTextNode(rowData.files[file].language);
+//
+//    });
+//
+//
+//}
+
+function filter(clear){
+    var newurl = '';
+
+    if(!clear) {
+        var filters = [];
+        var pages;
+        var per_page = 30;
 
 
-        var cell_description = document.createTextNode( rowData.description );
-        var cell_date = document.createTextNode( rowData.updated_at );
-        var listofFiles = document.createTextNode( 'FILES' );
-
-        //Grab the file Names and Info
-        for(file in rowData.files){
-            var listFiles = document.createElement("ul");
-            var fileName = document.createTextNode( rowData.files[file].filename);
-            var fileLink = document.createTextNode(rowData.files[file].raw_url);
-            var fileLang = document.createTextNode( rowData.files[file].language);
-            listFiles.appendChild(fileName);
-            listFiles.appendChild(fileLink);
-            listFiles.appendChild(fileLang);
+        langu = document.getElementsByName('language');
+        //gather up which filters are needed
+        for (i in langu) {
+            if (langu[i].checked)
+                filters.push(langu[i].value)
 
         }
-       listofFiles.appendData(listFiles);
-        row.appendChild(listofFiles);
-        row.appendChild(cell_description);
-        row.appendChild(cell_date);
-        tblbdy.appendChild(row);
-    });
+        //if there are filters add them to the request
+        if (filters.length >= 1 ) {
 
-    tbl.appendChild(tblbdy);
-    display.appendChild(tbl);
+            newurl = 'https://api.github.com/search/repositories?q=';
+            newurl += 'language=';
+            var languages  = filters.join(' OR ');
+            newurl += encodeURIComponent(languages);
+            newurl += '&per_page' + per_page;
+        }
+
+        console.log(newurl);
+        connect(newurl, 'search');
+        //newurl += 'per_page=' + per_page;
+        //if the page changed add that too api.github.com/search/repositories?q=
+
+    }
 
 }
 
@@ -84,8 +167,10 @@ window.onload = function(){
    console.log('Connecting...');
 
     var perpage = 4;
-    connect('https://api.github.com/gists/public?per_page='+ perpage);
+   connect('https://api.github.com/gists/public?per_page='+ perpage);
 
+
+    //displayGists(response, 'gists');
 
 };
 

@@ -6,12 +6,18 @@
     <script  src="src/gists.js" type="application/javascript"> </script>
 </head>
 <body>
-testing
-<input id="Connectbutton" type="button" name="start" onclick=getGists(response); value="test" />
 
-<span id="ajaxButton" style="cursor: pointer; text-decoration: underline">
-  Make a request
-</span>
+<form >
+    <input type="checkbox" name="language" value="Python">Python
+    <input type="checkbox" name="language" value="SQL">SQL
+    <input type="checkbox" name="language" value="JavaScript">Java Script
+    <input type="checkbox" name="language" value="JSON">JSON
+
+    <input id="Connectbutton" type="button" name="getNewData" onclick=displayGists(); value="Show; Gists" />
+
+</form>
+<a target=""
+
 <div id="gists"></div>
 
 </body>
