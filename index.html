@@ -2,32 +2,44 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <meta name="author" content="Robert Jackson">
+    <meta name="description" content="A page to list and store Gits, and filter them according to Language used.">
     <title>GISTS</title>
     <script  src="src/gists.js" type="application/javascript"> </script>
     <link rel="stylesheet" href="src/gists.css" type="text/css">
 </head>
 <body>
-
+<h1>Git the Gist...git it?</h1>
 <form >
     <fieldset>
-        <legend>Filter</legend>
+        <legend>Filter Results</legend>
         <input type="checkbox" name="language" value="Python"><span>Python</span>
         <input type="checkbox" name="language" value="SQL"><span>SQL</span>
         <input type="checkbox" name="language" value="JavaScript"><span>JavaScript</span>
         <input type="checkbox" name="language" value="text"><span>Text</span>
+        <input type="checkbox" name="language" value="css"><span>CSS</span>
         <input type="checkbox" name="language" value="C++"><span>C++</span>
         <input type="checkbox" name="language" value="C#"><span>C#</span>
-
+        <input type="checkbox" name="language" value="Assembly"><span>Assembly</span>
+        <input type="checkbox" name="language" value="jQuery"><span>jQuery</span>
         <input id="Connectbutton" type="button" name="Filter" onclick=filterOn(); value="Filter" />
         <input id="ClearFilter" type="button" name="clearFilter" onclick=filterOn('clear'); value="ClearFilter" />
+        <div class="pageControl">
+            <span>Per page:</span><input id="per_page" type="number" name="setpPages" onchange=setPPage(); value="per_page"; />
+            <span>Page:</span> <input id="page" type="number" name="setpage" onchange=setPPage(); value="page"; />
+        </div>
     </fieldset>
 
 </form>
+<section>
 
+
+</section>
 
 <section>
     <div class="gistContainer">
-        <h2>Gists</h2><input id="pages" type="number" name="setpPages" onchange=setPPage(); value="per_page"; />
+        <h2>Gists</h2>
+
         <div id="gists"></div>
     </div>
     <div class="gistContainer">

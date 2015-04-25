@@ -1,3 +1,9 @@
+/*
+Author : Robert Jackson
+Date: 04/25/15
+Class: CS290
+*/
+
 //some date stuff for git requests
 var dateOff = (  60 * 1000); // minute
 var d = new Date();
@@ -11,7 +17,7 @@ function connect(url) {
 
     //did we get anything
     if (!url) {
-        url = gitURL + localStorage.getItem('per_page');
+        url = gitURL + localStorage.getItem('per_page') + '&page='+localStorage.getItem('page') ;
     }
 
     var req = new XMLHttpRequest();
@@ -32,7 +38,6 @@ function connect(url) {
             //check the response
             if (req.status === 200) {
                 // everything is good, the response is received
-
                 response = JSON.parse(req.responseText);
                 localStorage.setItem('firstrep', response);
                 if (response !== '') {
@@ -46,6 +51,7 @@ function connect(url) {
             } else {
 
                 console.log('Received a response other than 200');
+                alert('Something broke with the request to ' + url);
                 console.log(req.statusText);
             }
         }
@@ -254,7 +260,8 @@ function filterOn(clear) {
 
 function setPPage() {
 
-    localStorage.setItem('per_page', document.getElementById('pages').value);
+    localStorage.setItem('per_page', document.getElementById('per_page').value);
+    localStorage.setItem('page', document.getElementById('page').value);
     connect();
 }
 
@@ -262,7 +269,10 @@ window.onload = function () {
 
     console.log('Connecting...');
     connect('https://api.github.com/gists/public?per_page=' + localStorage.getItem('per_page'));
-    document.getElementById('pages').value = localStorage.getItem('per_page');
+    if(!localStorage.getItem('page')){localStorage.setItem('page', 1)}
+    if(!localStorage.getItem('per_page')){localStorage.setItem('per_page', 30)}
+    document.getElementById('page').value = localStorage.getItem('page');
+    document.getElementById('per_page').value = localStorage.getItem('per_page');
 
 
 };

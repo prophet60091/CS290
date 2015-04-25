@@ -1,3 +1,8 @@
+/*
+Author : Robert Jackson
+Date: 04/25/15
+Class: CS290
+*/
 
 @import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700);
 body{font-family: 'PT Sans', sans-serif; }
@@ -7,18 +12,18 @@ body{font-family: 'PT Sans', sans-serif; }
 
 #gists {
 
-    border: solid 1px #030700;
+    border: solid 1px #A8DE62;
     border-radius: 25px;
     padding:5px;
     margin:10px;
-    background-color:#A19E1F;
+    background-color:#030700;
 }
 #favs {
-    border: solid 1px #030700;;
+    border: solid 1px #A8DE62;
     border-radius: 25px;
     padding:5px;
     margin:10px;
-    background-color:#A8DE62;
+    background-color:#030700;
 }
 
 section{ padding-top:20px;}
@@ -31,21 +36,35 @@ input{
     background-color:#D1E6CC;
     padding:10px;}
 
-#pages{
+#per_page, #page{
     width:50px;
-    float:right;
     position:relative;
-    left: -25px;
-    top: -25px;}
 
-a.gitLink{ color:#030700;}
+}
+
+a.gitLink{ color:#D1E6CC; }
 a.addLink{
     font-weight: 700;
+    font-size: 20px;
     text-decoration: none;
     border: 1px solid #D1E6CC;
-    color:#D1E6CC;
+    color: #D1E6CC;
     border-radius: 2px;
     display: inline-block;
     padding: 5px;
-    margin: 5px;
+    float: right;
+    clear: both;
+    line-height: 15px;
+}
+li{
+    margin:22px;
+    list-style: none;
+}
+.pageControl{
+    padding-top:20px;
+}
+h1{
+    font-style: 120%;
+    color: #374E0C;
+    
 }
