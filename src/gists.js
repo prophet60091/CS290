@@ -17,7 +17,9 @@ function connect(url) {
     var req = new XMLHttpRequest();
 
     // make sure it got somewhere
-    if (!req)console.log('Something broke with the request to ' + url);
+    if (!req){
+        alert('Something broke with the request to ' + url);
+    }
 
     req.onreadystatechange = state;
     req.open('GET', url);
@@ -189,7 +191,6 @@ function dispArray(array, where) {
         }
         addtoFav.href = "javascript:void(0)";
         addtoFav.className = "addLink";
-        addtoFav.target = "_blank";
         addtoFav.id = array[key].id;
         if(where === 'gists'){
             var addtoFavLink = document.createTextNode(' + ');
@@ -216,66 +217,39 @@ function filterOn(clear) {
 
     if (!clear) {
         var filters = [];
-        //var pages;
 
+        //Figure out what languages are selected add to an array
         langu = document.getElementsByName('language');
-        //gather up which filters are needed
         for (i in langu) {
             if (langu[i].checked)
                 filters.push(langu[i].value)
-
         }
-        //var filtered = respArray.filter(function (item){
-        //    filters.forEach(function (f){
-        //        if( item.lang.indexOf(f) === -1 ){
-        //            console.log('Holey Shit!')
-        //            return respArray;
-        //        }
-        //
-        //    })
-        //
-        //});
+
+        //Determine the id's to filter out
         var ids = [];
-        //Determin id's to filter out
-        temp = respArray;
+
         for (item in respArray){
+            document.getElementById(respArray[item].id).parentElement.style.display = "none"; // hide all first
 
-            filters.forEach(function(lang){
-                if(respArray[item].lang.indexOf(lang) !== -1){
+            for( lang in filters){
+                //if the language has one from our array push it
+                if(respArray[item].lang.indexOf(filters[lang]) >= 0){
                     ids.push(respArray[item].id);
-                    temp = temp.filter(function (rid) {
-                        return rid.id == respArray[item].id
-                    });
                 }
-            })
-
+            }
         }
-        //filter them and display the filterd array
+        //loop the ID's and change their displaysetting
+        ids.forEach(function(aid){
 
-
-
-        dispArray(temp, 'gists');
-        //dispArray(filtered, 'gists');
-        /*//if there are filters add them to the request
-        if (filters.length >= 1) {
-
-            newurl = 'https://api.github.com/gists/public?q=';
-            newurl += 'language=';
-            var languages = filters.join(' OR ');
-            newurl += encodeURIComponent(languages);
-            newurl += '&per_page=' + localStorage.getItem('per_page');
-            console.log(newurl);
-        }
-
-        console.log(newurl);
-        connect(newurl);
-        //newurl += 'per_page=' + per_page;
-        //if the page changed add that too api.github.com/search/repositories?q=*/
+            document.getElementById(aid).parentElement.style.display = "";
+        })
 
     } else {
-        dispArray(respArray, 'gists');
+        //clear filter was set show em all
+        for (item in respArray) {
+            document.getElementById(respArray[item].id).parentElement.style.display = "";
+        }
     }
-
 }
 
 function setPPage() {

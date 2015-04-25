@@ -4,23 +4,38 @@
     <meta charset="UTF-8">
     <title>GISTS</title>
     <script  src="src/gists.js" type="application/javascript"> </script>
+    <link rel="stylesheet" href="src/gists.css" type="text/css">
 </head>
 <body>
 
 <form >
-    <input type="checkbox" name="language" value="Python">Python
-    <input type="checkbox" name="language" value="SQL">SQL
-    <input type="checkbox" name="language" value="JavaScript">Java Script
-    <input type="checkbox" name="language" value="JSON">JSON
+    <fieldset>
+        <legend>Filter</legend>
+        <input type="checkbox" name="language" value="Python"><span>Python</span>
+        <input type="checkbox" name="language" value="SQL"><span>SQL</span>
+        <input type="checkbox" name="language" value="JavaScript"><span>JavaScript</span>
+        <input type="checkbox" name="language" value="text"><span>Text</span>
+        <input type="checkbox" name="language" value="C++"><span>C++</span>
+        <input type="checkbox" name="language" value="C#"><span>C#</span>
 
-    <input id="Connectbutton" type="button" name="Filter" onclick=filterOn(); value="Filter" />
-    <input id="ClearFilter" type="button" name="clearFilter" onclick=filterOn('clear'); value="ClearFilter" />
-    <input id="pages" type="number" name="setpPages" onchange=setPPage(); value="per_page";
+        <input id="Connectbutton" type="button" name="Filter" onclick=filterOn(); value="Filter" />
+        <input id="ClearFilter" type="button" name="clearFilter" onclick=filterOn('clear'); value="ClearFilter" />
+    </fieldset>
 
 </form>
 
 
-<div id="gists"></div><div id="favs"></div>
+<section>
+    <div class="gistContainer">
+        <h2>Gists</h2><input id="pages" type="number" name="setpPages" onchange=setPPage(); value="per_page"; />
+        <div id="gists"></div>
+    </div>
+    <div class="gistContainer">
+        <h2>Favorites</h2>
+        <div id="favs"></div>
+    </div>
+</section>
 
 </body>
 </html>
+

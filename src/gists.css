@@ -1,0 +1,51 @@
+
+@import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700);
+body{font-family: 'PT Sans', sans-serif; }
+.gistContainer{
+    float:left; width:40%;
+}
+
+#gists {
+
+    border: solid 1px #030700;
+    border-radius: 25px;
+    padding:5px;
+    margin:10px;
+    background-color:#A19E1F;
+}
+#favs {
+    border: solid 1px #030700;;
+    border-radius: 25px;
+    padding:5px;
+    margin:10px;
+    background-color:#A8DE62;
+}
+
+section{ padding-top:20px;}
+
+form{font-size:120%;}
+
+input{
+    font-size:120%;
+    border-radius:10px;
+    background-color:#D1E6CC;
+    padding:10px;}
+
+#pages{
+    width:50px;
+    float:right;
+    position:relative;
+    left: -25px;
+    top: -25px;}
+
+a.gitLink{ color:#030700;}
+a.addLink{
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid #D1E6CC;
+    color:#D1E6CC;
+    border-radius: 2px;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+}
