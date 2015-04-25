@@ -4,15 +4,14 @@ var d = new Date();
 d.setTime(d.getTime() - dateOff);
 gitDate = d.toISOString();
 
-var gitURL = 'https://api.github.com/gists/public';
+var gitURL = 'https://api.github.com/gists/public?per_page=';
 var respArray = [];
-
 
 function connect(url) {
 
     //did we get anything
     if (!url) {
-        url = 'https://api.github.com/gists/public?per_page=' + localStorage.getItem('per_page');
+        url = gitURL + localStorage.getItem('per_page');
     }
 
     var req = new XMLHttpRequest();
@@ -38,7 +37,7 @@ function connect(url) {
                     console.log('I have a response');
                     //depending on how we set the url, we may need to change the object
 
-                    dispArray(arrayG(response), 'arrayVersion');
+                    dispArray(arrayG(response), 'gists');
                     dispArray(JSON.parse(localStorage.getItem('favs')), 'favs');
                     return response;
                 }
@@ -50,44 +49,74 @@ function connect(url) {
         }
     }
 }
-
-function addFav(sender) {
+function subFav(testvar) {
+    console.log(testvar)
+}
+function addFav(sender, math) {
     var fav = [];
     var g = [];
+    if(math == 'add'){
+        if (!localStorage.getItem('favs') || localStorage.getItem('favs') == '') {
 
-    if (!localStorage.getItem('favs') || localStorage.getItem('favs') == '') {
-
-        fav.push(g[sender.target.id] = new Gist(respArray[sender.target.id].url, respArray[sender.target.id].desc, respArray[sender.target.id].lang, sender.target.id));
-        localStorage.setItem('favs', JSON.stringify(fav));
-        document.getElementById(sender.target.id).parentElement.style.display = "none";
-
-        //remove the pointer from our array
-        delete respArray[sender.target.id];
-        dispArray(JSON.parse(localStorage.getItem('favs')), 'favs');
-
-    } else {
-        fav = JSON.parse(localStorage.getItem('favs'));
-
-        //add it to the favorites if it's not already there
-        if (fav.indexOf(sender.target.id) === -1) {
-
-            //push it and store it locally
             fav.push(g[sender.target.id] = new Gist(respArray[sender.target.id].url, respArray[sender.target.id].desc, respArray[sender.target.id].lang, sender.target.id));
-            localStorage.setItem('favs', JSON.stringify(fav)); //add locally
+            localStorage.setItem('favs', JSON.stringify(fav));
+            document.getElementById(sender.target.id).parentElement.style.display = "none";
 
             //remove the pointer from our array
             delete respArray[sender.target.id];
-
-            //hide it from the display
-            document.getElementById(sender.target.id).parentElement.style.display = "none";
-
-            //update the display
             dispArray(JSON.parse(localStorage.getItem('favs')), 'favs');
 
         } else {
-            alert('That is already in your favorites')
+            fav = JSON.parse(localStorage.getItem('favs'));
+
+            //add it to the favorites if it's not already there
+            if (fav.indexOf(sender.target.id) === -1) {
+
+                //push it and store it locally
+                fav.push(g[sender.target.id] = new Gist(respArray[sender.target.id].url, respArray[sender.target.id].desc, respArray[sender.target.id].lang, sender.target.id));
+                localStorage.setItem('favs', JSON.stringify(fav)); //add locally
+
+                //remove the pointer from our array
+                delete respArray[sender.target.id];
+
+                //hide it from the display
+                document.getElementById(sender.target.id).parentElement.style.display = "none";
+
+                //update the display
+                dispArray(JSON.parse(localStorage.getItem('favs')), 'favs');
+
+            } else {
+                alert('That is already in your favorites');
+            }
         }
-    }
+    }else{
+            // Were removing things from the favs
+            fav = JSON.parse(localStorage.getItem('favs'));
+
+            // inn is the object that is going to be added back
+            var inn = fav.filter(function(item){
+                return item.id == sender.target.id;
+            });
+            //out rebuilds teh arry taking the selected id out
+            var out = fav.filter(function(item){
+                return item.id !== sender.target.id;
+            });
+            //put the array back in local storage
+            localStorage.setItem('favs', JSON.stringify(out));
+            //update the display
+            dispArray(JSON.parse(localStorage.getItem('favs')), 'favs');
+
+            //hide it from the display FIRST
+            //document.getElementById(sender.target.id).parentElement.style.display = "none";
+
+            //put it back in the resparray unless it's already there
+            if (respArray.indexOf(sender.target.id) === -1) {
+                respArray[inn[0].id] = new Gist(inn[0].url, inn[0].desc, inn[0].lang, inn[0].id);
+                dispArray(respArray, 'gists');
+            }
+
+        }
+
 }
 
 //Constructor funciton to make a list ob objects
@@ -103,8 +132,7 @@ function Gist(url, desc, lang, id) {
 //@param a JSON.parse of the responseText
 function arrayG(rsp) {
 
-    var fileLang;
-
+    respArray = [];
     rsp.forEach(function (rowData) {
 
         for (file in rowData.files) {
@@ -114,11 +142,6 @@ function arrayG(rsp) {
                 languages.push(rowData.files[file].language);
         }
 
-        if (languages.length >= 1) {
-            fileLang = languages.join(', ')
-        } else {
-            fileLang = 'n/a'
-        }
         respArray[rowData.id] = new Gist(rowData.html_url, rowData.description, languages, rowData.id);
 
     });
@@ -136,6 +159,7 @@ function dispArray(array, where) {
     var display = document.getElementById(where);
     var list = document.createElement("ul");
 
+    //loop over the array and generate the html
     for (key in array) {
 
         var row = document.createElement("li");
@@ -153,12 +177,26 @@ function dispArray(array, where) {
         }
         /// A link to add stuff to the Fav list
         var addtoFav = document.createElement("a");
-        addtoFav.onclick = addFav;
+        //Something to switch the outcome based on where it was clicked i=either in favs or gitsts
+        if(where === 'gists'){
+            addtoFav.onclick = function (f) {
+                addFav(f, 'add');
+            }
+        }else {
+            addtoFav.onclick = function (f) {
+                addFav(f, 'sub');
+            };
+        }
         addtoFav.href = "javascript:void(0)";
         addtoFav.className = "addLink";
         addtoFav.target = "_blank";
         addtoFav.id = array[key].id;
-        var addtoFavLink = document.createTextNode(' + ');
+        if(where === 'gists'){
+            var addtoFavLink = document.createTextNode(' + ');
+        }else {
+            var addtoFavLink = document.createTextNode(' - ');
+        }
+
 
         //Appendages
         addtoFav.appendChild(addtoFavLink);
@@ -173,13 +211,12 @@ function dispArray(array, where) {
 }
 
 
-function filter(clear) {
+function filterOn(clear) {
     var newurl = '';
-
 
     if (!clear) {
         var filters = [];
-        var pages;
+        //var pages;
 
         langu = document.getElementsByName('language');
         //gather up which filters are needed
@@ -188,7 +225,38 @@ function filter(clear) {
                 filters.push(langu[i].value)
 
         }
-        //if there are filters add them to the request
+        //var filtered = respArray.filter(function (item){
+        //    filters.forEach(function (f){
+        //        if( item.lang.indexOf(f) === -1 ){
+        //            console.log('Holey Shit!')
+        //            return respArray;
+        //        }
+        //
+        //    })
+        //
+        //});
+        var ids = [];
+        //Determin id's to filter out
+        temp = respArray;
+        for (item in respArray){
+
+            filters.forEach(function(lang){
+                if(respArray[item].lang.indexOf(lang) !== -1){
+                    ids.push(respArray[item].id);
+                    temp = temp.filter(function (rid) {
+                        return rid.id == respArray[item].id
+                    });
+                }
+            })
+
+        }
+        //filter them and display the filterd array
+
+
+
+        dispArray(temp, 'gists');
+        //dispArray(filtered, 'gists');
+        /*//if there are filters add them to the request
         if (filters.length >= 1) {
 
             newurl = 'https://api.github.com/gists/public?q=';
@@ -202,11 +270,10 @@ function filter(clear) {
         console.log(newurl);
         connect(newurl);
         //newurl += 'per_page=' + per_page;
-        //if the page changed add that too api.github.com/search/repositories?q=
+        //if the page changed add that too api.github.com/search/repositories?q=*/
 
     } else {
-        connect();
-
+        dispArray(respArray, 'gists');
     }
 
 }

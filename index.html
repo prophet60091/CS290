@@ -13,16 +13,14 @@
     <input type="checkbox" name="language" value="JavaScript">Java Script
     <input type="checkbox" name="language" value="JSON">JSON
 
-    <input id="Connectbutton" type="button" name="Filter" onclick=filter(); value="Filter" />
-    <input id="ClearFilter" type="button" name="clearFilter" onclick=filter('clear'); value="ClearFilter" />
+    <input id="Connectbutton" type="button" name="Filter" onclick=filterOn(); value="Filter" />
+    <input id="ClearFilter" type="button" name="clearFilter" onclick=filterOn('clear'); value="ClearFilter" />
     <input id="pages" type="number" name="setpPages" onchange=setPPage(); value="per_page";
 
 </form>
 
 
-<div id="gists"></div>
-
-<div id="arrayVersion"></div><div id="favs"></div>
+<div id="gists"></div><div id="favs"></div>
 
 </body>
 </html>
