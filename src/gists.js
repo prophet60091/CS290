@@ -1,29 +1,33 @@
 /*
-Author : Robert Jackson
-Date: 04/25/15
-Class: CS290
-*/
+ Author : Robert Jackson
+ Date: 04/25/15
+ Class: CS290
+ */
 
 //some date stuff for git requests
-var dateOff = (  60 * 1000); // minute
+var dateOff = (  60 * 1000);
 var d = new Date();
 d.setTime(d.getTime() - dateOff);
 gitDate = d.toISOString();
 
 var gitURL = 'https://api.github.com/gists/public?per_page=';
-var respArray = [];
+var responsObj = [];
 
+
+//Initiates the connection to the url provided;
+// CAuses the display to take place once loaded
+//@param url URL to be passed
 function connect(url) {
 
     //did we get anything
     if (!url) {
-        url = gitURL + localStorage.getItem('per_page') + '&page='+localStorage.getItem('page') ;
+        url = gitURL + localStorage.getItem('per_page') + '&page=' + localStorage.getItem('page');
     }
 
     var req = new XMLHttpRequest();
 
     // make sure it got somewhere
-    if (!req){
+    if (!req) {
         alert('Something broke with the request to ' + url);
     }
 
@@ -45,7 +49,7 @@ function connect(url) {
                     //depending on how we set the url, we may need to change the object
 
                     dispArray(arrayG(response), 'gists');
-                    dispArray(JSON.parse(localStorage.getItem('favs')), 'favs');
+                    dispArray(JSON.parse(localStorage.getItem('favs')), 'favorites');
                     return response;
                 }
             } else {
@@ -57,22 +61,22 @@ function connect(url) {
         }
     }
 }
-function subFav(testvar) {
-    console.log(testvar)
-}
+//Adds or subtracts from the appropriate list
+//@param sender is the variable set by the item that caled the function.
+//@param math If math is set to add it will add to favorites otherwise it subtracts from the favorites
 function addFav(sender, math) {
     var fav = [];
     var g = [];
-    if(math == 'add'){
+    if (math == 'add') {
         if (!localStorage.getItem('favs') || localStorage.getItem('favs') == '') {
-
-            fav.push(g[sender.target.id] = new Gist(respArray[sender.target.id].url, respArray[sender.target.id].desc, respArray[sender.target.id].lang, sender.target.id));
+            console.log(sender);
+            fav.push(g[sender.target.id] = new Gist(responsObj[sender.target.id].url, responsObj[sender.target.id].desc, responsObj[sender.target.id].lang, sender.target.id));
             localStorage.setItem('favs', JSON.stringify(fav));
             document.getElementById(sender.target.id).parentElement.style.display = "none";
 
             //remove the pointer from our array
-            delete respArray[sender.target.id];
-            dispArray(JSON.parse(localStorage.getItem('favs')), 'favs');
+            delete responsObj[sender.target.id];
+            dispArray(JSON.parse(localStorage.getItem('favs')), 'favorites');
 
         } else {
             fav = JSON.parse(localStorage.getItem('favs'));
@@ -81,53 +85,55 @@ function addFav(sender, math) {
             if (fav.indexOf(sender.target.id) === -1) {
 
                 //push it and store it locally
-                fav.push(g[sender.target.id] = new Gist(respArray[sender.target.id].url, respArray[sender.target.id].desc, respArray[sender.target.id].lang, sender.target.id));
+                fav.push(g[sender.target.id] = new Gist(responsObj[sender.target.id].url, responsObj[sender.target.id].desc, responsObj[sender.target.id].lang, sender.target.id));
                 localStorage.setItem('favs', JSON.stringify(fav)); //add locally
 
                 //remove the pointer from our array
-                delete respArray[sender.target.id];
+                delete responsObj[sender.target.id];
 
                 //hide it from the display
                 document.getElementById(sender.target.id).parentElement.style.display = "none";
 
                 //update the display
-                dispArray(JSON.parse(localStorage.getItem('favs')), 'favs');
+                dispArray(JSON.parse(localStorage.getItem('favs')), 'favorites');
 
             } else {
                 alert('That is already in your favorites');
             }
         }
-    }else{
-            // Were removing things from the favs
-            fav = JSON.parse(localStorage.getItem('favs'));
+        //WE're going to Subtract it from Favs and Add bak to the resp Object
+    } else {
+        // Were removing things from the favs
+        fav = JSON.parse(localStorage.getItem('favs'));
 
-            // inn is the object that is going to be added back
-            var inn = fav.filter(function(item){
-                return item.id == sender.target.id;
-            });
-            //out rebuilds teh arry taking the selected id out
-            var out = fav.filter(function(item){
-                return item.id !== sender.target.id;
-            });
-            //put the array back in local storage
-            localStorage.setItem('favs', JSON.stringify(out));
-            //update the display
-            dispArray(JSON.parse(localStorage.getItem('favs')), 'favs');
+        // inn is the object that is going to be added back
+        var inn = fav.filter(function (item) {
+            return item.id == sender.target.id;
+        });
+        //out rebuilds teh arry taking the selected id out
+        var out = fav.filter(function (item) {
+            return item.id !== sender.target.id;
+        });
+        //put the array back in local storage
+        localStorage.setItem('favs', JSON.stringify(out));
+        //update the display
+        dispArray(JSON.parse(localStorage.getItem('favs')), 'favorites');
 
-            //hide it from the display FIRST
-            //document.getElementById(sender.target.id).parentElement.style.display = "none";
+        //hide it from the display FIRST
+        //document.getElementById(sender.target.id).parentElement.style.display = "none";
 
-            //put it back in the resparray unless it's already there
-            if (respArray.indexOf(sender.target.id) === -1) {
-                respArray[inn[0].id] = new Gist(inn[0].url, inn[0].desc, inn[0].lang, inn[0].id);
-                dispArray(respArray, 'gists');
-            }
-
+        //put it back in the responsObj unless it's already there
+        if (responsObj.indexOf(sender.target.id) === -1) {
+            responsObj[inn[0].id] = new Gist(inn[0].url, inn[0].desc, inn[0].lang, inn[0].id);
+            dispArray(responsObj, 'gists');
         }
+
+    }
 
 }
 
-//Constructor funciton to make a list ob objects
+//Constructor funciton to make  gist objects
+
 function Gist(url, desc, lang, id) {
     this.url = url;
     this.desc = desc;
@@ -137,25 +143,26 @@ function Gist(url, desc, lang, id) {
 
 
 // Makes an Array out of the textresponse.
-//@param a JSON.parse of the responseText
+//@param rsp a JSON.parse of the responseText
 function arrayG(rsp) {
 
-    respArray = [];
+    responsObj = [];
     rsp.forEach(function (rowData) {
 
         for (file in rowData.files) {
             var languages = [];
 
-            if(rowData.files.hasOwnProperty(file))
+            if (rowData.files.hasOwnProperty(file))
                 languages.push(rowData.files[file].language);
         }
 
-        respArray[rowData.id] = new Gist(rowData.html_url, rowData.description, languages, rowData.id);
+        responsObj[rowData.id] = new Gist(rowData.html_url, rowData.description, languages, rowData.id);
 
     });
 
-    return respArray;
+    return responsObj;
 }
+
 //Displays the Array from ArrayG
 //@param array = A Json.parsed  array;
 //@param where  = what parent element in the DOM
@@ -168,7 +175,8 @@ function dispArray(array, where) {
     var list = document.createElement("ul");
 
     //loop over the array and generate the html
-    for (key in array) {
+    //for (key in array) {
+    Object.keys(array).forEach(function (key) {
 
         var row = document.createElement("li");
 
@@ -183,14 +191,16 @@ function dispArray(array, where) {
         if (array[key].desc === '' || array[key].desc === null) {
             fileDesc = document.createTextNode('No Description Entered')
         }
-        /// A link to add stuff to the Fav list
+
+        // A link to add stuff to the Fav list
         var addtoFav = document.createElement("a");
+
         //Something to switch the outcome based on where it was clicked i=either in favs or gitsts
-        if(where === 'gists'){
+        if (where === 'gists') {
             addtoFav.onclick = function (f) {
                 addFav(f, 'add');
             }
-        }else {
+        } else {
             addtoFav.onclick = function (f) {
                 addFav(f, 'sub');
             };
@@ -198,12 +208,11 @@ function dispArray(array, where) {
         addtoFav.href = "javascript:void(0)";
         addtoFav.className = "addLink";
         addtoFav.id = array[key].id;
-        if(where === 'gists'){
+        if (where === 'gists') {
             var addtoFavLink = document.createTextNode(' + ');
-        }else {
+        } else {
             var addtoFavLink = document.createTextNode(' - ');
         }
-
 
         //Appendages
         addtoFav.appendChild(addtoFavLink);
@@ -211,70 +220,84 @@ function dispArray(array, where) {
         rowLink.appendChild(fileDesc);
         row.appendChild(addtoFav);
         list.appendChild(row);
-    }
+    });
     //finally add all that to the top element
     display.appendChild(list);
 
 }
-
-
+//Invokes the filtering by
+//@param clear If set to anything else other than clear will filter
+//if set to clear it will clear the filters.
 function filterOn(clear) {
-    var newurl = '';
 
     if (!clear) {
-        var filters = [];
+        var filters = []; // holder the languages from the html page
+        var ids = []; //Determine the id's to filter out
 
         //Figure out what languages are selected add to an array
-        langu = document.getElementsByName('language');
-        for (i in langu) {
-            if (langu[i].checked)
+        langu = document.getElementsByClassName('lng');
+        //Object.keys(langu).forEach( function(key) {
+        //    if (langu[key].checked){
+        //        filters.push(langu[key].value)
+        //    }
+        //});
+        for (var i = 0; i < langu.length; i++) {
+
+            if (langu[i].checked) {
                 filters.push(langu[i].value)
-        }
-
-        //Determine the id's to filter out
-        var ids = [];
-
-        for (item in respArray){
-            document.getElementById(respArray[item].id).parentElement.style.display = "none"; // hide all first
-
-            for( lang in filters){
-                //if the language has one from our array push it
-                if(respArray[item].lang.indexOf(filters[lang]) >= 0){
-                    ids.push(respArray[item].id);
-                }
             }
         }
+
+        Object.keys(responsObj).forEach(function (key) {
+            document.getElementById(responsObj[key].id).parentElement.style.display = "none"; // hide all first
+
+            filters.forEach(function (fKey) {
+                //if the language has one from our array push it
+                if (responsObj[key].lang.indexOf(fKey) >= 0) {
+                    ids.push(key);
+                }
+            });
+        });
         //loop the ID's and change their displaysetting
-        ids.forEach(function(aid){
+        ids.forEach(function (aid) {
 
             document.getElementById(aid).parentElement.style.display = "";
         })
 
     } else {
         //clear filter was set show em all
-        for (item in respArray) {
-            document.getElementById(respArray[item].id).parentElement.style.display = "";
-        }
+        Object.keys(responsObj).forEach(function (key) {
+
+            document.getElementById(responsObj[key].id).parentElement.style.display = "";
+        });
+
     }
 }
 
+//sets the page and per page values based on what is in the HTML
+//Note it does invoke the connect function to get a new set of data
 function setPPage() {
 
-    localStorage.setItem('per_page', document.getElementById('per_page').value);
-    localStorage.setItem('page', document.getElementById('page').value);
+    if (!localStorage.getItem('page') || localStorage.getItem('page') === "") {
+        localStorage.setItem('page', 1);
+        document.getElementById('page').value = 1;
+    } else {
+        localStorage.setItem('page', document.getElementById('page').value);
+    }
+
+    if (!localStorage.getItem('per_page') || localStorage.getItem('per_page') === "") {
+        localStorage.setItem('per_page', 30);
+        document.getElementById('per_page').value = 30;
+    } else {
+        localStorage.setItem('per_page', document.getElementById('per_page').value);
+    }
+
     connect();
 }
 
 window.onload = function () {
 
     console.log('Connecting...');
-    connect('https://api.github.com/gists/public?per_page=' + localStorage.getItem('per_page'));
-    if(!localStorage.getItem('page')){localStorage.setItem('page', 1)}
-    if(!localStorage.getItem('per_page')){localStorage.setItem('per_page', 30)}
-    document.getElementById('page').value = localStorage.getItem('page');
-    document.getElementById('per_page').value = localStorage.getItem('per_page');
-
+    setPPage();
 
 };
-
-//document.getElementById("connectButton").onclick =function(){connect();};

@@ -18,7 +18,7 @@ body{font-family: 'PT Sans', sans-serif; }
     margin:10px;
     background-color:#030700;
 }
-#favs {
+#favorites {
     border: solid 1px #A8DE62;
     border-radius: 25px;
     padding:5px;
@@ -42,7 +42,7 @@ input{
 
 }
 
-a.gitLink{ color:#D1E6CC; }
+a.gitLink{ color:#D1E6CC; margin-right: 25px;}
 a.addLink{
     font-weight: 700;
     font-size: 20px;
@@ -55,6 +55,7 @@ a.addLink{
     float: right;
     clear: both;
     line-height: 15px;
+
 }
 li{
     margin:22px;
@@ -64,7 +65,7 @@ li{
     padding-top:20px;
 }
 h1{
-    font-style: 120%;
+    font-size: 120%;
     color: #374E0C;
     
 }

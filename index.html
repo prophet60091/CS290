@@ -11,22 +11,22 @@
 <body>
 <h1>Git the Gist...git it?</h1>
 <form >
-    <fieldset>
+        <fieldset>
         <legend>Filter Results</legend>
-        <input type="checkbox" name="language" value="Python"><span>Python</span>
-        <input type="checkbox" name="language" value="SQL"><span>SQL</span>
-        <input type="checkbox" name="language" value="JavaScript"><span>JavaScript</span>
-        <input type="checkbox" name="language" value="text"><span>Text</span>
-        <input type="checkbox" name="language" value="css"><span>CSS</span>
-        <input type="checkbox" name="language" value="C++"><span>C++</span>
-        <input type="checkbox" name="language" value="C#"><span>C#</span>
-        <input type="checkbox" name="language" value="Assembly"><span>Assembly</span>
-        <input type="checkbox" name="language" value="jQuery"><span>jQuery</span>
-        <input id="Connectbutton" type="button" name="Filter" onclick=filterOn(); value="Filter" />
-        <input id="ClearFilter" type="button" name="clearFilter" onclick=filterOn('clear'); value="ClearFilter" />
+        <input type="checkbox" name="language" value="Python" class="lng"><label>Python</label>
+        <input type="checkbox" name="language" value="SQL" class="lng"><label>SQL</label>
+        <input type="checkbox" name="language" value="JavaScript" class="lng"><label>JavaScript</label>
+        <input type="checkbox" name="language" value="text" class="lng"><label>Text</label>
+        <input type="checkbox" name="language" value="css" class="lng"><label>CSS</label>
+        <input type="checkbox" name="language" value="C++" class="lng"><label>C++</label>
+        <input type="checkbox" name="language" value="C#" class="lng"><label>C#</label>
+        <input type="checkbox" name="language" value="Assembly" class="lng"><label>Assembly</label>
+        <input type="checkbox" name="language" value="JSON" class="lng"><label>JSON</label>
+        <input id="Connectbutton" type="button"  onclick="filterOn()" value="Filter" name="filter" />
+        <input id="ClearFilter" type="button"  onclick="filterOn('clear')" value="ClearFilter"  name="clearfilter"/>
         <div class="pageControl">
-            <span>Per page:</span><input id="per_page" type="number" name="setpPages" onchange=setPPage(); value="per_page"; />
-            <span>Page:</span> <input id="page" type="number" name="setpage" onchange=setPPage(); value="page"; />
+            <label for="per_page">Per page:</label><input id="per_page" type="number" name="setpPages" onchange="setPPage()" value="per_page" />
+            <label for="page">Page:</label> <input id="page" type="number" name="setpage" onchange="setPPage()" value="page" />
         </div>
     </fieldset>
 
@@ -44,7 +44,7 @@
     </div>
     <div class="gistContainer">
         <h2>Favorites</h2>
-        <div id="favs"></div>
+        <div id="favorites"></div>
     </div>
 </section>
 
