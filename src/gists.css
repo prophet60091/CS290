@@ -34,15 +34,11 @@ body {
 section {
     padding-top: 20px;
 }
-/*FORMS*/
-form {
-    font-size: 120%;
-}
-
+/*FORMS*/  }
 input {
     font-size: 20px;
-    border-radius: 10px;
-    background-color: #736980;
+    border-radius: 5px;
+    color: #6089A8;
 }
 
 #per_page, #page {
@@ -88,10 +84,17 @@ a.addLink {
     line-height: 15px;
 
 }
+#gists span{
+    color:#736980;
+    font-size: 20px;
+   margin:10px 30px;
+    font-weight: 700;
+}
+#favorites span{display: none;  }
 
+ul{list-style: none;}
 li {
     margin: 22px;
-    list-style: none;
 }
 
 .pageControl {
@@ -105,5 +108,6 @@ h1 {
 }
 
 h2 {
+    font-size:2em;
     color: #736980;
 }

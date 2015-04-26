@@ -214,15 +214,24 @@ function dispArray(array, where) {
             var addtoFavLink = document.createTextNode(' - ');
         }
 
+
         //Appendages
         addtoFav.appendChild(addtoFavLink);
         row.appendChild(rowLink);
         rowLink.appendChild(fileDesc);
         row.appendChild(addtoFav);
         list.appendChild(row);
+
     });
+    //show page number;
+    var pageNo = document.createElement("span");
+    pageNo.innerHTML = "Page " + localStorage.getItem("page");
+    display.appendChild(pageNo);
+
     //finally add all that to the top element
     display.appendChild(list);
+
+
 
 }
 //Invokes the filtering by
