@@ -3,52 +3,70 @@ Author : Robert Jackson
 Date: 04/25/15
 Class: CS290
 */
-
 @import url(http://fonts.googleapis.com/css?family=PT+Sans:400,700);
-body{font-family: 'PT Sans', sans-serif; }
-.gistContainer{
-    float:left; width:40%;
+
+body {
+    font-family: 'PT Sans', sans-serif;
+}
+
+.gistContainer {
+    float: left;
+    width: 40%;
+
 }
 
 #gists {
-
-    border: solid 1px #A8DE62;
+    border: solid 1px #3FB4D1;
     border-radius: 25px;
-    padding:5px;
-    margin:10px;
-    background-color:#030700;
+    padding: 5px;
+    margin: 10px;
+    background-color: #6089A8;
 }
+
 #favorites {
-    border: solid 1px #A8DE62;
+    border: solid 1px #3FB4D1;
     border-radius: 25px;
-    padding:5px;
-    margin:10px;
-    background-color:#030700;
+    padding: 5px;
+    margin: 10px;
+    background-color: #6089A8;
 }
 
-section{ padding-top:20px;}
+section {
+    padding-top: 20px;
+}
 
-form{font-size:120%;}
+form {
+    font-size: 120%;
+}
 
-input{
-    font-size:120%;
-    border-radius:10px;
-    background-color:#D1E6CC;
-    padding:10px;}
+input {
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: #736980;
+}
 
-#per_page, #page{
-    width:50px;
-    position:relative;
+#per_page, #page {
+    width: 50px;
+    position: relative;
 
 }
 
-a.gitLink{ color:#D1E6CC; margin-right: 25px;}
-a.addLink{
+fieldset {
+    border-color: #736980;
+    border-radius: 10px;
+}
+
+a.gitLink {
+    color: #8CFAD0;
+    margin-right: 25px;
+}
+
+a.addLink {
     font-weight: 700;
     font-size: 20px;
     text-decoration: none;
-    border: 1px solid #D1E6CC;
-    color: #D1E6CC;
+    border: 1px solid #8CFAD0;
+    color: #8CFAD0;
     border-radius: 2px;
     display: inline-block;
     padding: 5px;
@@ -57,15 +75,42 @@ a.addLink{
     line-height: 15px;
 
 }
-li{
-    margin:22px;
+
+li {
+    margin: 22px;
     list-style: none;
 }
-.pageControl{
-    padding-top:20px;
+
+.pageControl {
+    padding-top: 20px;
 }
-h1{
-    font-size: 120%;
-    color: #374E0C;
-    
+
+h1 {
+    font-size: 3em;
+    color: #736980;
+
+}
+
+h2 {
+    color: #736980;
+}
+
+label{margin:10px;
+font-size:20px;}
+
+/* SQUARED TWO
+Adapted from http://cssdeck.com/labs/css-checkbox-styles*/
+.squaredTwo {
+    width: 20px;
+    height: 20px;
+    background: #736980;
+
+    background: -webkit-linear-gradient(top, #736980 0%, #8699A4 40%, #999999 100%);
+    background: -moz-linear-gradient(top, #736980 0%, #8699A4 40%, #999999 100%);
+    background: -o-linear-gradient(top, #736980 0%, #8699A4 40%, #999999 100%);
+    background: -ms-linear-gradient(top, #736980 0%, #8699A4 40%, #999999 100%);
+    background: linear-gradient(top, #736980 0%, #8699A4 40%, #999999 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#736980', endColorstr='#999999', GradientType=0);
+    margin: 20px auto;
+
 }

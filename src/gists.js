@@ -235,12 +235,7 @@ function filterOn(clear) {
         var ids = []; //Determine the id's to filter out
 
         //Figure out what languages are selected add to an array
-        langu = document.getElementsByClassName('lng');
-        //Object.keys(langu).forEach( function(key) {
-        //    if (langu[key].checked){
-        //        filters.push(langu[key].value)
-        //    }
-        //});
+        langu = document.getElementsByName('language');
         for (var i = 0; i < langu.length; i++) {
 
             if (langu[i].checked) {
