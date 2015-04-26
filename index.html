@@ -5,27 +5,29 @@
     <meta name="author" content="Robert Jackson">
     <meta name="description" content="A page to list and store Gits, and filter them according to Language used.">
     <title>GISTS</title>
-    <script  src="src/gists.js" type="application/javascript"> </script>
+    <script src="src/gists.js" type="application/javascript"></script>
     <link rel="stylesheet" href="src/gists.css" type="text/css">
 </head>
 <body>
 <h1>Git the Gist...git it?</h1>
-<form >
-        <fieldset>
+
+<form>
+    <fieldset>
         <legend>Filter Results</legend>
-        <input type="checkbox" name="language" value="Python" id="Python" class="squaredTwo"><label for="Python">Python</label>
-        <input type="checkbox" name="language" value="SQL" id="SQL" class="squaredTwo"><label for="SQL">SQL</label>
-        <input type="checkbox" name="language" value="JavaScript" id="JavaScript" class="squaredTwo"><label for="JavaScript">JavaScript</label>
-        <input type="checkbox" name="language" value="css" id="css" class="squaredTwo"><label for="css">CSS</label>
-        <input type="checkbox" name="language" value="C++" id="C++" class="squaredTwo"><label for="C++">C++</label>
-        <input type="checkbox" name="language" value="C#" id="C#" class="squaredTwo"><label for="C#">C#</label>
-        <input type="checkbox" name="language" value="Assembly" id="Assembly" class="squaredTwo"><label for="Assembly">Assembly</label>
-        <input type="checkbox" name="language" value="JSON" id="JSON" class="squaredTwo"><label for="JSON">JSON</label>
-        <input id="Connectbutton" type="button"  onclick="filterOn()" value="Filter" name="filter" />
-        <input id="ClearFilter" type="button"  onclick="filterOn('clear')" value="ClearFilter"  name="clearfilter" />
+        <input type="checkbox" name="language" value="Python" id="Python" class="squ"><label for="Python">Python</label>
+        <input type="checkbox" name="language" value="SQL" id="SQL" class="squ"><label for="SQL">SQL</label>
+        <input type="checkbox" name="language" value="JavaScript" id="JavaScript" class="squ"><label for="JavaScript">JavaScript</label>
+        <input type="checkbox" name="language" value="css" id="css" class="squ"><label for="css">CSS</label>
+        <input type="checkbox" name="language" value="C++" id="C++" class="squ"><label for="C++">C++</label>
+        <input type="checkbox" name="language" value="C#" id="C#" class="squ"><label for="C#">C#</label>
+        <input type="checkbox" name="language" value="Assembly" id="Assembly" class="squ"><label for="Assembly">Assembly</label>
+        <input type="checkbox" name="language" value="JSON" id="JSON" class="squ"><label for="JSON">JSON</label>
+        <input id="Connectbutton" type="button" onclick="filterOn()" value="Filter" name="filter"/>
+        <input id="ClearFilter" type="button" onclick="filterOn('clear')" value="ClearFilter" name="clearfilter"/>
+
         <div class="pageControl">
-            <label for="per_page">Per page:</label><input id="per_page" type="number" name="setpPages" onchange="setPPage()" value="per_page" />
-            <label for="page">Page:</label> <input id="page" type="number" name="setpage" onchange="setPPage()" value="page" />
+            <label for="per_page">Per page:</label><input id="per_page" type="number" name="setpPages" onchange="setPPage()" value="per_page"/>
+            <label for="page">Page:</label> <input id="page" type="number" name="setpage" onchange="setPPage()"  value="page"/>
         </div>
     </fieldset>
 
@@ -39,6 +41,7 @@
     </div>
     <div class="gistContainer">
         <h2>Favorites</h2>
+
         <div id="favorites"></div>
     </div>
 </section>
