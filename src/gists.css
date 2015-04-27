@@ -7,6 +7,7 @@ Class: CS290
 
 body {
     font-family: 'PT Sans', sans-serif;
+    margin:20px;
 }
 /*CONTAINERS*/
 .gistContainer {
@@ -17,7 +18,7 @@ body {
 
 #gists {
     border: solid 1px #3FB4D1;
-    border-radius: 25px;
+    border-radius: 15px;
     padding: 5px;
     margin: 10px;
     background-color: #6089A8;
@@ -25,7 +26,7 @@ body {
 
 #favorites {
     border: solid 1px #3FB4D1;
-    border-radius: 25px;
+    border-radius: 15px;
     padding: 5px;
     margin: 10px;
     background-color: #6089A8;
@@ -34,19 +35,25 @@ body {
 section {
     padding-top: 20px;
     clear:both;
+    margin-left:20px;
 }
 .pageControl {
     padding-top: 20px;
     float:left;
     display: inline-block;
 }
-.search{float:left; display: inline-block;}
+.search{
+    float:left;
+    display: inline-block;
+    padding-top: 20px;
+}
 
 /*FORMS*/
 input {
     font-size: 20px;
     border-radius: 5px;
     color: #6089A8;
+    background-color: transparent;
 }
 
 #per_page, #page {
@@ -66,7 +73,7 @@ label{margin:10px;
 .squ {
     width: 20px;
     height: 20px;
-    background: #736980;
+    background-color:  rgba(96, 137, 168, 0.44);
     margin: 20px auto;
 
 }
