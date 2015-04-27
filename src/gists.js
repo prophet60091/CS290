@@ -279,8 +279,7 @@ function filterOn(clear) {
 }
 
 //Invokes the search
-//
-//
+// hides results in the HTML only doesnt alter the array
 function search() {
 
     var query =  document.getElementById('search').value ;
