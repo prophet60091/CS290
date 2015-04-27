@@ -278,6 +278,35 @@ function filterOn(clear) {
     }
 }
 
+//Invokes the search
+//
+//
+function search() {
+
+    var query =  document.getElementById('search').value ;
+    var ids =[];
+    Object.keys(responsObj).forEach(function (key) {
+
+        document.getElementById(responsObj[key].id).parentElement.style.display = "none"; // hide all first
+        var desc = responsObj[key].desc;
+        //if there is a match push it to the array
+        if(desc) {
+            var exp = new RegExp(query, 'gi');
+            if (desc.match(exp)) {
+                ids.push(key);
+            }
+        }
+    });
+
+    //loop the ID's and change their displaysetting
+    ids.forEach(function (aid) {
+
+        document.getElementById(aid).parentElement.style.display = "";
+    });
+
+}
+
+
 //sets the page and per page values based on what is in the HTML
 //Note it does invoke the connect function to get a new set of data
 function setPPage() {
